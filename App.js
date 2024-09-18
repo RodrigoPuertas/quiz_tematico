@@ -22,12 +22,10 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} options={{ headerBackVisible: false }} />
-        <Stack.Screen name="Tela1" component={Tela1} options={{ headerBackVisible: false }} />
-        <Stack.Screen name="Tela2" component={Tela2} options={{ headerBackVisible: true , animation: 'slide_from_bottom'}} />
-        <Stack.Screen name="Tela3" component={Tela3} options={{ headerBackVisible: false, headerBackTitleVisible: false, title: 'Esta é tela 3', animation: 'fade' }} />
-
+      <Stack.Navigator initialRouteName="HomePage">
+        <Stack.Screen name="HomePage" component={Home} options={{ headerBackVisible: false }} />
+        <Stack.Screen name="screen1" component={screen1} options={{ headerBackVisible: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
