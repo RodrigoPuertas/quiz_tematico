@@ -20,7 +20,7 @@ export async function createTable() {
         idTema INTEGER,
         pergunta TEXT NOT NULL,
         FOREIGN KEY (idTema) REFERENCES tbTemas(idTema) ON DELETE CASCADE
-        FOREIGN KEY (idAlternativaCorreta) REFERENCES tbAlternativas(idAlternativas)
+        
     );`;
 
     const tbAlternativas = `
@@ -28,8 +28,9 @@ export async function createTable() {
         idAlternativa INTEGER PRIMARY KEY AUTOINCREMENT,
         idPergunta INTEGER,
         alternativa TEXT NOT NULL,
+        alternativaCorreta INTEGER, -- 0 incorreta / 1 correta
         FOREIGN KEY (idPergunta) REFERENCES tbPerguntas(idPergunta) ON DELETE CASCADE
-        
+
     );`;
 
     try {
@@ -45,10 +46,17 @@ export async function createTable() {
 
 
 export async function listaTemas() {
-    const retorno = [];
-    const dbCx = await getDbConnection();
-    const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas');
-    await dbCx.closeAsync();
+    
+    try{
+        const retorno = [];
+        const dbCx = await getDbConnection();
+        const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas');
+    }catch(error){   
+        console.error("Erro ao listar temas", error);
+    }
+    finally{
+        await dbCx.closeAsync();
+    }
 
     for (const registro of registros) {        
         let temas = {
@@ -79,57 +87,49 @@ export async function listaPeguntasporTemas() {
     return retorno;
 }
 
-export async function adicionaTema(Tema) {    
-    const dbCx = await getDbConnection();    
-    const query = 'INSERT INTO tbTemas (descTema) VALUES (?)';
-    const result = await dbCx.runAsync(query, [Tema.descTema]);    
-    await dbCx.closeAsync();
-    return result.changes === 1;    
+export async function adicionaTema(Tema) {   
+    try{
+        const dbCx = await getDbConnection();    
+        const query = 'INSERT INTO tbTemas (descTema) VALUES (?)';
+        const result = await dbCx.runAsync(query, [Tema.descTema]);    
+    }catch(error){
+        console.log("Erro ao inserir um 'tema'.",error);
+    } finally{
+        await dbCx.closeAsync();
+        return result.changes === 1;    
+    }
 }
 
 export async function adicionaPergunta(pergunta) {    
-    const dbCx = await getDbConnection();    
-    const query = 'INSERT INTO tbPerguntas (pergunta, idTema) VALUES (?,?)';
-    const result = await dbCx.runAsync(query, [pergunta.pergunta,pergunta.idTema]);    
-    await dbCx.closeAsync();
-    return result.changes === 1;    
+    try{
+        const dbCx = await getDbConnection();    
+        const query = 'INSERT INTO tbPerguntas (pergunta, idTema) VALUES (?,?)';
+        const result = await dbCx.runAsync(query, [pergunta.pergunta,pergunta.idTema]);    
+    }catch(error){
+        console.log("Erro ao inserir 'pergunta'",error);
+    }
+    finally{
+        await dbCx.closeAsync();
+        return result.changes === 1;    
+    }
 }
 
 export async function adicionaAlternativas(alternativa) {    
-    const dbCx = await getDbConnection();    
-    const query = 'INSERT INTO tbAlternativas (alternativa, idPergunta) VALUES (?,?)';
-    const result = await dbCx.runAsync(query, [pergunta.pergunta,pergunta.idTema]);    
-    await dbCx.closeAsync();
-    return result.changes === 1;    
+    try{
+        const dbCx = await getDbConnection();    
+        const query = 'INSERT INTO tbAlternativas (alternativa, idPergunta, alternativaCorreta) VALUES (?,?,?)';
+        const result = await dbCx.runAsync(query, [alternativa.alternativa,alternativa.idPergunta,alternativa.Correta]);    
+    }
+    catch(error){
+        console.log("Erro ao inserir 'alternativa'",error);
+    }
+    
+    finally{
+        await dbCx.closeAsync();
+        return result.changes === 1;    
+    }   
 }
 
 
-export async function alteraContato(contato) {
-    const dbCx = await getDbConnection();
-    const query = 'UPDATE tbContatos SET nome = ?, email = ?, senha = ? WHERE id = ?';
-    const result = await dbCx.runAsync(query, [contato.nome, contato.email, contato.senha, contato.id]);
-    await dbCx.closeAsync();
-    return result.changes === 1;
-}
 
-export async function excluiContato(id) {
-    const dbCx = await getDbConnection();
-    const query = 'DELETE FROM tbContatos WHERE id = ?';
-    const result = await dbCx.runAsync(query, [id]);
-    await dbCx.closeAsync();
-    return result.changes === 1;    
-}
-
-export async function excluiTodosContatos() {
-    const dbCx = await getDbConnection();
-    const query = 'DELETE FROM tbContatos';    
-    await dbCx.execAsync(query);    
-    await dbCx.closeAsync();
-}
-
-export async function resetTable() {1
-    const cx = await getDbConnection();
-    await cx.execAsync('DROP TABLE IF EXISTS tbContatos');
-    await createTable();
-}
 
