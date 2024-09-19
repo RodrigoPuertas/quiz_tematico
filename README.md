@@ -35,4 +35,30 @@ button para add
 cruid perguntas(parte 3)
 formulario 
 
-
+Organização do projeto: 
+quiz_tematico/
+├─ .expo/
+├─ assets/
+├─ node_modules/
+├─ Screen/
+│  ├─ HomePage/
+│  │  ├─ index.js
+│  │  └─ styles.js
+│  ├─ ScreenForms/
+│  │  ├─ index.js
+│  │  └─ styles.js
+│  ├─ ScreenGame/
+│  │  ├─ index.js
+│  │  └─ styles.js
+│  ├─ ScreenRegistrationQuestions/
+│  │  ├─ index.js
+│  │  └─ styles.js
+│  └─ ScreenRegistrationTheme/
+│     ├─ index.js
+│     └─ styles.js
+├─ App.js
+├─ app.json
+├─ package.json
+├─ package-lock.json
+├─ babel.config.js
+└─ README.md

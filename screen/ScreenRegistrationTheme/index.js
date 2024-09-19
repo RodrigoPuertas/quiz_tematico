@@ -2,18 +2,18 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useEffect } from 'react';
 
-export default function Screen2({ navigation }) {
+export default function ScreenRegistrationTheme({ navigation }) {
 
     useEffect(() => {
-        console.log('Entrando na Tela 2');
+        console.log('Entrando na Tela de temas');
         return () => {
-            console.log('Finalizando tela: Tela 2');
+            console.log('Finalizando tela: Tela de temas');
         };
     }, []);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.texto}>Você está na Tela 2!</Text>
+            <Text style={styles.texto}>Você está na Tela de temas!</Text>
             <Text></Text><Text></Text>
             <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('HomePage')}>
                 <Text style={styles.texto}>Voltar para a Home</Text>

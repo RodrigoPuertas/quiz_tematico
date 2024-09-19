@@ -2,21 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useEffect } from 'react';
 
-export default function ScreenRegistrationQuestions({ navigation }) {
+export default function ScreenForms({ navigation }) {
 
     useEffect(() => {
-        console.log('Entrando na Tela de questão ');
+        console.log('Entrando na Tela de formulario de perguntas');
         return () => {
-            console.log('Finalizando tela: Tela de questão');
+            console.log('Finalizando tela: Tela de formulario de perguntas');
         };
     }, []);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.texto}>Você está na Tela de questão!</Text>
+            <Text style={styles.texto}>Você está na Tela do formulario de questão!</Text>
             <Text></Text><Text></Text>
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ScreenForms')}>
-                <Text style={styles.texto}>Cadastrar um questão</Text>
+            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('HomePage')}>
+                <Text style={styles.texto}>Save</Text>
             </TouchableOpacity>
             <StatusBar style="auto" />
         </View>

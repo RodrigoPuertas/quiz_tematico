@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 export default function Screen1({ navigation }) {
 
     useEffect(() => {
-        console.log('Entrando na Tela 1');
+        console.log('Entrando na Tela de jogo');
         return () => {
-            console.log('Finalizando tela: Tela 1');
+            console.log('Finalizando tela: Tela de jogo');
         };
     }, []);
 
