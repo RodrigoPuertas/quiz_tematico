@@ -4,11 +4,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-import HomePage from './Screen/HomePage';
-import ScreenGame from './Screen/ScreenGame';
-import ScreenRegistrationTheme from './Screen/ScreenRegistrationTheme';
-import ScreenRegistrationQuestions from './Screen/ScreenRegistrationQuestions';
-import ScreenForms from './Screen/ScreenForms';
+import HomePage from './screen/HomePage';
+import ScreenGame from './screen/ScreenGame';
+import ScreenRegistrationTheme from './screen/ScreenRegistrationTheme';
+import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions';
+import ScreenForms from './screen/ScreenForms';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
