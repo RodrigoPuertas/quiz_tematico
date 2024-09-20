@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
       },
-      title: {
+      tittle: {
         marginTop: 40,
         fontSize: 30,
         color: '#FFFFFF',
@@ -29,15 +29,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
-        marginBottom: 80,
-        width:200,
-
+        marginTop: 20,
+        marginBottom: 20
       },
       textButton: {
         color: '#ffffff',
-        fontSize: 25,
+        fontSize: 16,
         fontWeight: 'bold',
-        textAlign: 'center'
  
       },
       footer: {
@@ -45,18 +43,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         alignItems: 'center',
       },
-      input: {
-        width: '100%', // Ajuste a largura para 80% da tela ou o que preferir
-        height: 80, // Altura maior
-        borderWidth: 1, // Largura da borda
-        borderColor: 'black', // Cor da borda preta
-        borderRadius: 30, // Bordas arredondadas
-        paddingHorizontal: 10, // Espaçamento interno
-        marginBottom: 300, // Espaçamento abaixo
-        fontSize: 30,
-        color: '#000000',
-        textAlign: 'center'
-    },
 });
 
 export default styles;

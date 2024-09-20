@@ -14,7 +14,7 @@ export default function HomePage({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.texto}>Bem Vindo ao Quiz Maluco</Text>
             <Text></Text><Text></Text>
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Jogar')}> 
+            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ScreenThemes')}> 
                 <Text style={styles.texto}>Comece o jogo aqui</Text>
             </TouchableOpacity>
             <StatusBar style="auto" />

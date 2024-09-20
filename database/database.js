@@ -91,7 +91,7 @@ export async function adicionaTema(Tema) {
     try{
         const dbCx = await getDbConnection();    
         const query = 'INSERT INTO tbTemas (descTema) VALUES (?)';
-        const result = await dbCx.runAsync(query, [Tema.descTema]);    
+        await dbCx.runAsync(query, [Tema]);    
     }catch(error){
         console.log("Erro ao inserir um 'tema'.",error);
     } finally{

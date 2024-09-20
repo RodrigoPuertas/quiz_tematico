@@ -1,72 +1,35 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomePage from './screen/HomePage';
-import ScreenGame from './screen/ScreenGame';
-import ScreenRegistrationTheme from './screen/ScreenRegistrationTheme';
-import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions';
+import Home from './screen/HomePage';
 import ScreenForms from './screen/ScreenForms';
+import ScreenGame from './screen/ScreenGame';
+import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions';
+import ScreenRegistrationTheme from './screen/ScreenRegistrationTheme';
+import ScreenThemes from './screen/ScreenThemes'
+/* Help:
+https://reactnavigation.org/docs/hello-react-navigation
+https://reactnavigation.org/docs/native-stack-navigator/#headerbackvisible
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+// pacotes para instalar: 
+npx expo install @react-navigation/native
+npx expo install react-native-screens react-native-safe-area-context
+npx expo install @react-navigation/native-stack
+*/
 
-function StackNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Cadastro de perguntas" component={ScreenRegistrationQuestions} />
-      <Stack.Screen name="ScreenForms" component={ScreenForms} />
-    </Stack.Navigator>
-  );
-}
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="HomePage"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'Jogar') {
-              iconName = focused ? 'game-controller' : 'game-controller-outline';
-            } else if (route.name === 'Cadastrar Tema') {
-              iconName = focused ? 'add-circle' : 'add-circle-outline';
-            }
-            return iconName ? <Ionicons name={iconName} size={size} color={color} /> : null;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-          tabBarButton: (props) => (route.name === 'HomePage' ? () => null : <TouchableOpacity {...props} />),
-        })}
-      >
-        <Tab.Screen 
-          name="HomePage" 
-          component={HomePage} 
-          options={{
-            tabBarLabel: 'Home',
-            tabBarButton: () => null,
-            tabBarStyle: { display: 'none' }
-          }}
-        />
-        <Tab.Screen 
-          name="Jogar" 
-          component={ScreenGame} 
-          options={{ tabBarLabel: 'Jogo' }}
-        />
-        <Tab.Screen 
-          name="Cadastrar Tema" 
-          component={ScreenRegistrationTheme} 
-          options={{ tabBarLabel: 'Cadastrar Tema' }}
-        />
-        <Tab.Screen 
-          name="Cadastro de perguntas" 
-          component={StackNavigator} // Use o StackNavigator aqui
-          options={{ tabBarLabel: 'Cadastro de Perguntas' }}
-        />
-      </Tab.Navigator>
+      <Stack.Navigator initialRouteName="HomePage">
+        <Stack.Screen name="HomePage" component={Home} options={{ headerBackVisible: false }} />
+        <Stack.Screen name="ScreenForms" component={ScreenForms} options={{ headerBackVisible: true }} />
+        <Stack.Screen name="ScreenGame" component={ScreenGame} options={{ headerBackVisible: true }} />
+        <Stack.Screen name="ScreenRegistrationQuestions" component={ScreenRegistrationQuestions} options={{ headerBackVisible: true }} />
+        <Stack.Screen name="ScreenRegistrationTheme" component={ScreenRegistrationTheme} options={{ headerBackVisible: true, headerShown: false }} />
+        <Stack.Screen name="ScreenThemes" component={ScreenThemes} options={{ headerBackVisible: true, headerShown: false }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
