@@ -1,20 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useEffect } from 'react';
 
 export default function HomePage({ navigation }) {
-
-    useEffect(() => {
-        return () => {
-            console.log('Finalizando tela: HomePage');
-        };
-    }, []);
-
     return (
         <View style={styles.container}>
             <Text style={styles.texto}>Bem Vindo ao Quiz Maluco</Text>
-            <Text></Text><Text></Text>
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ScreenThemes')}> 
+            <TouchableOpacity 
+                style={styles.botao} 
+                onPress={() => navigation.navigate('Main')} // Navega para a tab bar
+            >
                 <Text style={styles.texto}>Comece o jogo aqui</Text>
             </TouchableOpacity>
             <StatusBar style="auto" />

@@ -5,44 +5,54 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         justifyContent: 'space-between',
-      },
-      header: {
+    },
+    header: {
         backgroundColor: '#120a51',
         paddingVertical: 20,
         paddingHorizontal: 10,
         alignItems: 'center',
-      },
-      tittle: {
-        marginTop: 40,
+    },
+    title: {
         fontSize: 30,
         color: '#FFFFFF',
         fontWeight: 'bold',
-      },
-      main: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-      },
-      button: {
-        backgroundColor: '#120a51',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
         marginTop: 20,
-        marginBottom: 20
-      },
-      textButton: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: 'bold',
- 
-      },
-      footer: {
+    },
+    main: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    input: {
+        height: 60,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+        width: '100%',
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        fontSize: 25,
+    },
+    scrollContainer: {
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        marginTop:30
+    },
+    themeItem: {
+        padding: 10,
+        marginVertical: 5,
+        backgroundColor: '#e0e0e0',
+        borderRadius: 5,
+        width: '100%',
+    },
+    themeText: {
+        fontSize: 18,
+    },
+    footer: {
         backgroundColor: '#120a51',
         paddingVertical: 10,
         alignItems: 'center',
-      },
+    },
 });
 
 export default styles;

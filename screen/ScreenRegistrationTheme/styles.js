@@ -57,6 +57,13 @@ const styles = StyleSheet.create({
         color: '#000000',
         textAlign: 'center'
     },
+    ViewButton:{
+        flexDirection: 'row', // Alinha os itens em linha
+        justifyContent: 'space-between', // Espaço igual entre os botões
+        alignItems: 'center', // Alinha os botões verticalmente
+        marginTop: 20, 
+        marginLeft: 30
+    }
 });
 
 export default styles;

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { getDbConnection, createTable, adicionaTema } from '../../database/database';
 import styles from './styles';
+import Button from '../../components/Button'; // Importa o botão
 
 export default function ScreenRegistrationTheme({ navigation }) {
     const [tema, setTema] = useState('');
@@ -17,17 +18,21 @@ export default function ScreenRegistrationTheme({ navigation }) {
     }, []);
 
     const saveTheme = async () => {
-        if (tema) {
-            const isSaved = await adicionaTema(tema); // Salva o tema
-            if (isSaved) {
-                setTema(''); // Limpa o campo após salvar
-                console.log('Tema salvo:', tema);
-                // Você pode navegar para outra tela aqui se necessário
+        try {
+            if (tema) {
+                const isSaved = await adicionaTema(tema); // Salva o tema
+                if (isSaved) {
+                    setTema(''); // Limpa o campo após salvar
+                    console.log('Tema salvo:', tema);
+                    navigation.navigate('ScreenThemes');
+                } else {
+                    console.log('Erro ao salvar o tema.');
+                }
             } else {
-                console.log('Erro ao salvar o tema.');
+                console.log('Por favor, insira um tema.');
             }
-        } else {
-            console.log('Por favor, insira um tema.');
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -43,9 +48,18 @@ export default function ScreenRegistrationTheme({ navigation }) {
                     value={tema}
                     onChangeText={(text) => setTema(text)}
                 />
-                <TouchableOpacity style={styles.button} onPress={saveTheme}>
-                    <Text style={styles.textButton}>Salvar</Text>
-                </TouchableOpacity>
+                <View style={styles.ViewButton} >
+                    <Button 
+                        onPress={() => {saveTheme();}}
+                        buttonText="Salvar" 
+                    />
+
+                    <Button 
+                        onPress={() => navigation.navigate('ScreenThemes')} // Navega para a tela de cadastro de temas
+                        buttonText="Voltar" 
+                    />
+                </View>
+                
             </View>
             <View style={styles.footer}>
                 {/* Adicione conteúdo do rodapé, se necessário */}
