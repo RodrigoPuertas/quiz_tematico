@@ -53,6 +53,18 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         alignItems: 'center',
     },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginHorizontal: 10,
+    },
+    icon:{
+        marginHorizontal: 10,
+    },
+    lbl:{
+        fontSize: 18,
+        marginBottom:10,
+    },
 });
 
 export default styles;
