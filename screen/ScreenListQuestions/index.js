@@ -31,19 +31,19 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
                 <Text style={styles.title}>TEMA: {tema.nome}</Text>
             </View>
             
+            <ScrollView style={styles.scrollContainer}>
+                {perguntas.map(item => (
+                    <TouchableOpacity key={item.idPergunta} style={styles.perguntaContainer}>
+                        <Text style={styles.perguntaText}>{item.pergunta}</Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+            
             <View style={styles.main}>
                 <Button 
                     buttonText={"Criar Pergunta"} 
-                    onPress={() => navigation.navigate('ScreenCadastroPerguntas', { tema })} // Corrigido para navegar para a tela de cadastro
+                    onPress={() => navigation.navigate('ScreenRegistrationQuestions', { tema })} // Corrigido para navegar para a tela de cadastro
                 />
-                
-                <ScrollView style={styles.lista}>
-                    {perguntas.map(item => (
-                        <TouchableOpacity key={item.idPergunta} style={styles.perguntaContainer}>
-                            <Text style={styles.perguntaText}>{item.pergunta}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </ScrollView>
             </View>
             
             <View style={styles.footer}>

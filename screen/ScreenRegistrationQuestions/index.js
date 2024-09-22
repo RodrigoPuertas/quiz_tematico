@@ -27,7 +27,9 @@ const ScreenCadastroPerguntas = () => {
     };
 
     const inserirPergunta = async () => {
+        console.log(tema.idTema);
         const perguntaData = {
+            
             idTema: tema.idTema, // ID do tema passado como parâmetro
             pergunta1: pergunta,
             alternativa1: alternativas[0],

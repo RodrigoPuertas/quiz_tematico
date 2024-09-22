@@ -65,6 +65,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom:10,
     },
+    scrollContainer: {
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        marginTop:30
+    },
 });
 
 export default styles;
