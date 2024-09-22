@@ -14,9 +14,23 @@ export async function createTable() {
         descTema TEXT NOT NULL 
     );`;
 
+    const tbPerguntas = `
+    CREATE TABLE IF NOT EXISTS tbPerguntas (
+        idPergunta INTEGER PRIMARY KEY AUTOINCREMENT,
+        idTema INTEGER,
+        pergunta1 TEXT NOT NULL,
+        alternativa1 TEXT NOT NULL,
+        alternativa2 TEXT NOT NULL,
+        alternativa3 TEXT NOT NULL,
+        alternativa4 TEXT NOT NULL,
+        alternativaCorreta INTEGER,
+        FOREIGN KEY (idTema) REFERENCES tbTemas(idTema) ON DELETE CASCADE
+    );`;
+
     try {
         const cx = await getDbConnection();
         await cx.execAsync(tbTemas);
+        await cx.execAsync(tbPerguntas);
     } catch (error) {
         console.error('Erro na criação das tabelas:', error);
     }
