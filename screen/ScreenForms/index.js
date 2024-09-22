@@ -5,6 +5,7 @@ import Button from '../../components/Button'; // Botão customizado
 import { Linking } from 'react-native'; // Importando Linking para abrir URLs
 import logo from "../../assets/logo.png"
 import rodrigoImage from '../../assets/rodrigo-matioli.jpg';
+import lohanImage from '../../assets/lohan-batista.png';
 
 const ScreenResumo = ({ navigation }) => {
     const openLink = (url) => {
@@ -15,7 +16,7 @@ const ScreenResumo = ({ navigation }) => {
         <ScrollView contentContainerStyle={styles.container}>
             {/* Cabeçalho */}
             <View style={styles.header}>
-                <Text style={styles.title}>Bem-vindo ao Quiz!</Text>
+                <Text style={styles.title}>Bem-vindo ao QuizQuest!</Text>
                 <Image 
                     source={logo} // Imagem para o quiz
                     style={styles.image}
@@ -55,7 +56,7 @@ const ScreenResumo = ({ navigation }) => {
                             style={styles.devImage}
                         />
                         <Text style={styles.developers}>
-                            Rodrigo Matioli
+                            Rodrigo Puertas
                         </Text>
                         <TouchableOpacity style={styles.githubButton} onPress={() => openLink('https://github.com/RodrigoPuertas')}>
                             <Text style={styles.githubButtonText}>GitHub</Text>
@@ -63,11 +64,11 @@ const ScreenResumo = ({ navigation }) => {
                     </View>
                     <View style={styles.devDetails}>
                         <Image
-                            source={rodrigoImage} // Substitua pela imagem do João
+                            source={lohanImage} // Substitua pela imagem do João
                             style={styles.devImage}
                         />
                         <Text style={styles.developers}>
-                            João da Silva
+                            Lohan Batista
                         </Text>
                         <TouchableOpacity style={styles.githubButton} onPress={() => openLink('https://github.com/Lohan1303')}>
                             <Text style={styles.githubButtonText}>GitHub</Text>
@@ -75,15 +76,6 @@ const ScreenResumo = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-            
-            {/* Botão para iniciar */}
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('HomePage')}>
-                    <Text style={styles.texto}>Voltar para a Home</Text>
-                </TouchableOpacity>
-                <StatusBar style="auto" />
-            </View>
-            
             <StatusBar style="auto" />
         </ScrollView>
     );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StatusBar, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import styles from './styles';
@@ -18,7 +18,6 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
                 try {
                     const perguntasObtidas = await crud_perguntas.obterPerguntasPorTema(tema.id);
                     setPerguntas(perguntasObtidas);
-                    console.log(perguntasObtidas.length); // Verifique o que está sendo retornado
                 } catch (error) {
                     Alert.alert('Erro', 'Não foi possível carregar as perguntas.');
                     console.error(error);
@@ -47,7 +46,6 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
                                 Alert.alert('Erro', 'Falha ao apagar a pergunta.');
                             }
                         } catch (error) {
-                            console.error(error);
                             Alert.alert('Erro', 'Ocorreu um erro ao tentar apagar a pergunta.');
                         }
                     }
@@ -71,21 +69,21 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
                     <TouchableOpacity key={pergunta.idPergunta} style={styles.themeItem}>
                         <Text style={styles.perguntaText}>{"Pergunta: " + pergunta.pergunta}</Text>
                         <View style={styles.iconContainer}>
-                            <TouchableOpacity onPress={() =>  editarPergunta(pergunta)}>
-                                <Icon name="edit" size={20} color="#000" />
+                            <TouchableOpacity onPress={() => editarPergunta(pergunta)}>
+                                <Icon name="edit" size={20} color="#00adb5" style={styles.editIcon} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => apagarPergunta(pergunta.idPergunta)}>
-                                <Icon style={styles.icon} name="trash" size={20} color="#000" />
+                                <Icon style={styles.icon} name="trash" size={20} color="#00adb5" />
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
-            
             <View style={styles.main}>
                 <Button 
                     buttonText={"Criar Pergunta"} 
-                    onPress={() => navigation.navigate('ScreenRegistrationQuestions', { tema }, console.log(tema))} 
+                    onPress={() => navigation.navigate('ScreenRegistrationQuestions', { tema })} 
+                    style={styles.button} // Adiciona o estilo do botão
                 />
             </View>
             

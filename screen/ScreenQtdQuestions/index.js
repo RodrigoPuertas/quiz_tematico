@@ -51,18 +51,20 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#121212', // Cor de fundo escura
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#ffffff', // Cor do texto em branco
     },
     numberText: {
         fontSize: 48,
         textAlign: 'center',
         marginBottom: 20,
+        color: '#ffffff', // Cor do texto
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -70,27 +72,28 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     adjustButton: {
-        backgroundColor: '#00adb5',
+        backgroundColor: '#00adb5', // Mantendo a cor original dos botões
         padding: 15,
         borderRadius: 5,
         marginHorizontal: 10,
     },
     adjustButtonText: {
-        color: '#fff',
+        color: '#fff', // Texto do botão em branco
         fontSize: 24,
     },
     button: {
-        backgroundColor: '#00adb5',
+        backgroundColor: '#00adb5', // Mantendo a cor original do botão principal
         padding: 15,
         borderRadius: 5,
     },
     buttonText: {
-        color: '#fff',
+        color: '#fff', // Texto do botão principal em branco
         textAlign: 'center',
     },
     totalText: {
         fontSize: 16,
         marginTop: 20,
         textAlign: 'center',
+        color: '#ffffff', // Cor do texto em branco
     },
 });

@@ -2,79 +2,80 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#f5f5f5',
-        justifyContent: 'space-between',
-    },
-    header: {
-        backgroundColor: '#120a51',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        flexGrow: 1,
+        padding: 20,
+        backgroundColor: '#222831',
         alignItems: 'center',
     },
+    header: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     title: {
-        fontSize: 30,
-        color: '#FFFFFF',
+        fontSize: 24,
         fontWeight: 'bold',
-        marginTop: 20,
+        color: '#eeeeee',
+        marginBottom: 10,
     },
     main: {
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 20,
     },
-    input: {
-        height: 60,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 20,
-        width: '100%',
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        fontSize: 25,
-    },
     scrollContainer: {
-        paddingHorizontal: 20,
         paddingBottom: 20,
-        marginTop:30
+        width: '100%',
     },
     themeItem: {
-        padding: 10,
+        padding: 15,
+        paddingVertical: 10,
         marginVertical: 5,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 5,
+        backgroundColor: '#393e46', // Cor de fundo dos itens
+        borderRadius: 10,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
         width: '100%',
+        alignItems: 'center',
     },
-    themeText: {
+    perguntaText: {
         fontSize: 18,
+        color: '#eeeeee', // Cor do texto das perguntas
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    countText: {
+        fontSize: 16,
+        color: '#00adb5', // Cor para a contagem de perguntas
     },
     footer: {
-        backgroundColor: '#120a51',
-        paddingVertical: 10,
+        marginTop: 20,
+        width: '100%',
         alignItems: 'center',
     },
     iconContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginHorizontal: 10,
+        justifyContent: 'flex-end', // Alinha os ícones à direita
+        alignItems: 'center',
+        marginTop: 10,
+        marginLeft: 'auto', // Adiciona margem esquerda automática para empurrar para a direita
     },
-    icon:{
-        marginHorizontal: 10,
+    
+    editIcon: {
+        marginRight: 15, // Aumenta o espaço entre os ícones
     },
-    lbl:{
-        fontSize: 18,
-        marginBottom:10,
-    },
-    scrollContainer: {
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-        marginTop:30
-    },
-    themeItem: {
-        padding: 10,
-        marginVertical: 5,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 5,
+    // Dentro do seu arquivo de estilos
+    button: {
+        backgroundColor: '#00adb5', // Cor de fundo do botão
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
     },
 });

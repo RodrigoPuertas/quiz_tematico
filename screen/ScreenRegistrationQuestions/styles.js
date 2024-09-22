@@ -4,61 +4,65 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'center',
+        backgroundColor: '#222831',
+        alignItems: 'center',
+    },
+    header: {
+        alignItems: 'center',
+        marginBottom: 20,
     },
     title: {
         fontSize: 24,
+        fontWeight: 'bold',
+        color: '#00adb5',
         marginBottom: 20,
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: '#393e46',
         padding: 10,
         marginBottom: 10,
-        margin: 10,
         borderRadius: 10,
-        width: "80%",
+        width: '80%',
+        backgroundColor: '#ffffff',
     },
     pergunta: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
+    borderWidth: 1,
+    borderColor: '#393e46',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    height: 100,
+    fontSize: 15,
+    width: '100%', // Muda para 100% para ocupar a largura total da tela
+    backgroundColor: '#ffffff',
+},
+
+    alternativaContainer: {
+        width: '100%',
         marginBottom: 10,
-        margin: 10,
-        height: 100,
-        borderRadius: 10,
-        fontSize: 15,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#f5f5f5',
-        justifyContent: 'space-between',
-    },
-    header: {
-        backgroundColor: '#120a51',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 30,
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-        marginTop: 20,
-    },
-    main: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 20,
     },
     ViewButton: {
-
-        justifyContent: "flex-end", // Centraliza verticalmente
-        alignItems: "center", // Centraliza horizontalmente
-        marginVertical: 20, // Margem vertical, se necessário
+        justifyContent: "flex-end",
+        alignItems: "center",
+        marginVertical: 20,
+        width: '100%',
     },
     button: {
-        width: '80%', // Ajuste a largura do botão, se necessário
+        backgroundColor: '#00adb5',
+        padding: 10,
+        borderRadius: 10,
+        width: '80%',
+    },
+    buttonText: {
+        fontSize: 18,
+        color: '#ffffff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 });
 

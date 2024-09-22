@@ -20,7 +20,7 @@ export default function ScreenQuiz({ route, navigation }) {
     const selecionarAlternativa = (alternativa, index) => {
         setRespostas(prevRespostas => ({
             ...prevRespostas,
-            [indiceAtual]: index + 1, // Armazena o índice (1 a 4)
+            [indiceAtual]: index + 1,
         }));
     };
 
@@ -41,7 +41,7 @@ export default function ScreenQuiz({ route, navigation }) {
 
             Alert.alert(
                 "Resultados do Quiz",
-                `Você acertou ${acertos*100/(acertos+erros)}% das perguntas.\n\nNúmeros de acertos: ${acertos} de ${acertos + erros}.`,
+                `Você acertou ${acertos * 100 / (acertos + erros)}% das perguntas.\n\nNúmeros de acertos: ${acertos} de ${acertos + erros}.`,
                 [{ text: "OK", onPress: () => navigation.navigate('ScreenGame') }]
             );
         }
@@ -53,7 +53,7 @@ export default function ScreenQuiz({ route, navigation }) {
         const perguntaAtual = perguntas[indiceAtual];
 
         return perguntaAtual.alternativas.map((alternativa, index) => {
-            const isSelected = respostas[indiceAtual] === index + 1; // Compara com o índice correto (1 a 4)
+            const isSelected = respostas[indiceAtual] === index + 1;
             return (
                 <TouchableOpacity
                     key={index}
@@ -77,7 +77,7 @@ export default function ScreenQuiz({ route, navigation }) {
                     </TouchableOpacity>
                 </>
             ) : (
-                <Text>Carregando...</Text>
+                <Text style={styles.loadingText}>Carregando...</Text>
             )}
         </View>
     );
@@ -88,14 +88,16 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#222831',
     },
     perguntaText: {
         fontSize: 24,
         marginBottom: 20,
+        color: '#eeeeee',
+        textAlign: 'center', // Centraliza a pergunta
     },
     alternativaButton: {
-        backgroundColor: '#00adb5',
+        backgroundColor: '#00adb5', // Cor dos botões de alternativas
         padding: 15,
         borderRadius: 5,
         marginVertical: 5,
@@ -109,13 +111,17 @@ const styles = StyleSheet.create({
     },
     proximaButton: {
         marginTop: 20,
-        backgroundColor: '#ff5722',
+        backgroundColor: '#ff5722', // Cor diferente para o botão "Próxima Questão"
         padding: 15,
         borderRadius: 5,
     },
     proximaText: {
         color: '#fff',
         textAlign: 'center',
+        fontSize: 18,
+    },
+    loadingText: {
+        color: '#eeeeee',
         fontSize: 18,
     },
 });

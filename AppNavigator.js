@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screen/HomePage';
-import ScreenForms from './screen/ScreenForms';
+import ScreenInfo from './screen/ScreenForms';
 import ScreenGame from './screen/ScreenGame';
 import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions';
 import ScreenThemes from './screen/ScreenThemes';
@@ -70,7 +70,7 @@ const MainTabNavigator = () => {
                         iconName = 'game-controller-outline'; // Verifique o nome correto
                     } else if (route.name === 'Cadastro de Temas / Perguntas') {
                         iconName = 'book-outline'; // Verifique o nome correto
-                    } else if (route.name === 'Forms') {
+                    } else if (route.name === 'Info') {
                         iconName = 'clipboard-outline'; // Verifique o nome correto
                     }
                     return <Icon name={iconName} size={size} color={color} />;
@@ -88,7 +88,7 @@ const MainTabNavigator = () => {
         >
             <Tab.Screen name="Game" component={GameStack} options={{ headerShown: false }} />
             <Tab.Screen name="Cadastro de Temas / Perguntas" component={ThemesStack} options={{ headerShown: false }} />
-            <Tab.Screen name="Forms" component={ScreenForms} options={{ headerShown: false }} />
+            <Tab.Screen name="Info" component={ScreenInfo} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 };

@@ -12,14 +12,14 @@ export default function ScreenRegistrationTheme({ navigation }) {
     const [textId, setTextId] = useState('');
     const [temaEditando, setTemaEditando] = useState(null);
     const [contagensPerguntas, setContagensPerguntas] = useState({});
-    const [initialized, setInitialized] = useState(false); // Novo estado
+    const [initialized, setInitialized] = useState(false);
 
     // Função para carregar temas e contar perguntas
     const carregarTemas = async () => {
         try {
-            const temasCarregados = await listaTemas(); // Carrega os temas do banco
+            const temasCarregados = await listaTemas();
             setTemas(temasCarregados);
-            await atualizarContagensPerguntas(temasCarregados); // Atualiza a contagem de perguntas
+            await atualizarContagensPerguntas(temasCarregados);
         } catch (error) {
             console.error("Erro ao carregar temas:", error);
         }
@@ -29,27 +29,27 @@ export default function ScreenRegistrationTheme({ navigation }) {
         const novasContagens = {};
         for (let tema of temasCarregados) {
             const contagem = await countPerguntas(tema.id);
-            novasContagens[tema.id] = contagem; // Armazena a contagem
+            novasContagens[tema.id] = contagem;
         }
         setContagensPerguntas(novasContagens);
     };
 
     useEffect(() => {
         const initialize = async () => {
-            await carregarTemas(); // Carregar temas na inicialização
-            setInitialized(true); // Marca como inicializado
+            await carregarTemas();
+            setInitialized(true);
         };
 
         initialize();
 
         const unsubscribe = navigation.addListener('focus', () => {
             if (initialized) {
-                carregarTemas(); // Carregar dados sempre que a tela for chamada
+                carregarTemas();
             }
         });
 
         return () => {
-            unsubscribe(); // Limpa o listener quando o componente desmontar
+            unsubscribe();
         };
     }, [navigation, initialized]);
 
@@ -58,8 +58,8 @@ export default function ScreenRegistrationTheme({ navigation }) {
         if (temaUpper && !(await existeTema(temaUpper))) {
             const isSaved = await adicionaTema(temaUpper);
             if (isSaved) {
-                setNovoTema(''); // Limpa o campo
-                await carregarTemas(); // Atualiza os temas
+                setNovoTema('');
+                await carregarTemas();
             } else {
                 Alert.alert('Erro', 'Erro ao salvar o tema.');
             }
@@ -74,7 +74,7 @@ export default function ScreenRegistrationTheme({ navigation }) {
             { text: "OK", onPress: async () => {
                 const isDeleted = await apagarTemaDoBanco(idTema);
                 if (isDeleted) {
-                    await carregarTemas(); // Atualiza os temas
+                    await carregarTemas();
                 }
             }}
         ]);
@@ -94,7 +94,7 @@ export default function ScreenRegistrationTheme({ navigation }) {
                 setNovoTema('');
                 setTemaEditando(null);
                 setTextId('');
-                await carregarTemas(); // Atualiza os temas
+                await carregarTemas();
             } else {
                 Alert.alert('Erro', 'Erro ao atualizar o tema.');
             }
@@ -104,8 +104,8 @@ export default function ScreenRegistrationTheme({ navigation }) {
     return (
         <KeyboardAvoidingView 
             style={styles.container} 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Comportamento do teclado
-            keyboardVerticalOffset={100} // Ajuste para o seu cabeçalho
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={100}
         >
             <View style={styles.header}>
                 <Text style={styles.title}>TEMAS</Text>
