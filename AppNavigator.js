@@ -4,12 +4,39 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screen/HomePage';
 import ScreenForms from './screen/ScreenForms';
 import ScreenGame from './screen/ScreenGame';
-import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions'; // Mude conforme necessário
+import ScreenRegistrationQuestions from './screen/ScreenRegistrationQuestions';
 import ScreenThemes from './screen/ScreenThemes';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ScreenListQuestions from './screen/ScreenListQuestions';
+import ScreenQtdQuestions from './screen/ScreenQtdQuestions'; // Removido ScreenQuiz
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+import ScreenQuiz from './screen/ScreenQuiz'; // Assegure-se que o caminho esteja correto
+
+const GameStack = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen 
+                name="ScreenGame" 
+                component={ScreenGame} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="ScreenQtdQuestions" 
+                component={ScreenQtdQuestions} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="ScreenQuiz" // Certifique-se que o nome é o mesmo que está sendo utilizado na navegação
+                component={ScreenQuiz} 
+                options={{ headerShown: false }} 
+            />
+        </Stack.Navigator>
+    );
+};
+
 
 const ThemesStack = () => {
     return (
@@ -26,7 +53,7 @@ const ThemesStack = () => {
             />
             <Stack.Screen 
                 name="ScreenListQuestions" 
-                component={ScreenListQuestions} // Certifique-se de que este componente exista
+                component={ScreenListQuestions} 
                 options={{ headerShown: false }} 
             />
         </Stack.Navigator>
@@ -40,33 +67,31 @@ const MainTabNavigator = () => {
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
                     if (route.name === 'Game') {
-                        iconName = 'game-controller'; 
+                        iconName = 'game-controller-outline'; // Verifique o nome correto
                     } else if (route.name === 'Cadastro de Temas / Perguntas') {
-                        iconName = 'book'; 
+                        iconName = 'book-outline'; // Verifique o nome correto
                     } else if (route.name === 'Forms') {
-                        iconName = 'clipboard'; 
+                        iconName = 'clipboard-outline'; // Verifique o nome correto
                     }
                     return <Icon name={iconName} size={size} color={color} />;
                 },
                 tabBarStyle: {
-                    backgroundColor: '#393e46', // Cor de fundo da tab bar
-                    borderTopWidth: 0, // Remove a borda superior
+                    backgroundColor: '#393e46', 
+                    borderTopWidth: 0, 
                 },
                 tabBarLabelStyle: {
-                    fontSize: 12, // Ajusta o tamanho do texto
+                    fontSize: 12, 
                 },
-                tabBarActiveTintColor: '#00adb5', // Cor quando o item está ativo
-                tabBarInactiveTintColor: 'gray', // Cor quando o item está inativo
+                tabBarActiveTintColor: '#00adb5', 
+                tabBarInactiveTintColor: 'gray', 
             })}
         >
-            <Tab.Screen name="Game" component={ScreenGame} options={{ headerShown: false }} />
+            <Tab.Screen name="Game" component={GameStack} options={{ headerShown: false }} />
             <Tab.Screen name="Cadastro de Temas / Perguntas" component={ThemesStack} options={{ headerShown: false }} />
             <Tab.Screen name="Forms" component={ScreenForms} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 };
-
-
 
 export default function AppNavigator() {
     return (

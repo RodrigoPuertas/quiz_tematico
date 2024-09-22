@@ -65,6 +65,41 @@ export async function obterPerguntasPorTema(idTema) {
     return retorno;
 }
 
+export async function obterPerguntasPorTemaQTD(idTema,qtdPergunta) {
+    let retorno = [];
+    let dbCx;
+
+    try {
+        dbCx = await obterConexaoDb();
+        const registros = await dbCx.getAllAsync(`
+            SELECT * 
+            FROM tbPerguntas 
+            WHERE idTema = ? 
+            limit ? `, [idTema,qtdPergunta]);
+        
+        retorno = registros.map(registro => ({
+            idPergunta: registro.idPergunta,
+            pergunta: registro.pergunta1,
+            alternativas: [
+                registro.alternativa1,
+                registro.alternativa2,
+                registro.alternativa3,
+                registro.alternativa4
+            ],
+            alternativaCorreta: registro.alternativaCorreta
+        }));
+    } catch (error) {
+        console.error("Erro ao listar perguntas por tema", error);
+    } finally {
+        if (dbCx) {
+            await dbCx.closeAsync();
+        }
+    }
+    console.log(retorno.length);
+    return retorno;
+}
+
+
 // Função para adicionar uma nova pergunta
 export async function adicionarPergunta(idTema, pergunta1, alternativas, alternativaCorreta) {
     let resultado;

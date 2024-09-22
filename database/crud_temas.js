@@ -7,13 +7,13 @@ export async function getDbConnection() {
 }
 
 // Função para criar as tabelas
-export async function createTable() {    
+export async function createTable() {
     const tbTemas = `
     CREATE TABLE IF NOT EXISTS tbTemas (
         idTema INTEGER PRIMARY KEY AUTOINCREMENT,
         descTema TEXT NOT NULL 
     );`;
-    
+
     try {
         const cx = await getDbConnection();
         await cx.execAsync(tbTemas);
@@ -30,10 +30,14 @@ export async function listaTemas() {
     try {
         dbCx = await getDbConnection();
         const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas ORDER BY idTema DESC');
-        retorno = registros.map(registro => ({
-            id: registro.idTema,
-            nome: registro.descTema,
-        }));
+        
+        // Verifica se registros foram retornados antes de mapear
+        if (registros) {
+            retorno = registros.map(registro => ({
+                id: registro.idTema,
+                nome: registro.descTema,
+            }));
+        }
     } catch (error) {
         console.error("Erro ao listar temas", error);
     } finally {
@@ -44,15 +48,19 @@ export async function listaTemas() {
 
     return retorno;
 }
+
+
+
+
 // Função para verificar se o tema existe
 export async function existeTema(Tema) {
     let dbCx;
-    let aux;
+    let existe = false;
 
     try {
         dbCx = await getDbConnection();
         const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas WHERE descTema = ?', [Tema]);
-        aux = registros.length > 0;
+        existe = registros.length > 0;
     } catch (error) {
         console.error("Erro ao verificar tema", error);
     } finally {
@@ -61,7 +69,7 @@ export async function existeTema(Tema) {
         }
     }
 
-    return aux;
+    return existe;
 }
 
 // Função para adicionar tema
@@ -126,20 +134,24 @@ export async function atualizaTemaDoBanco(idTema, descTema) {
 
 // Função para contar perguntas por tema
 export async function countPerguntas(idTema) {
-    let resultado;
+    let resultado = 0; // Inicializa como 0 caso não haja perguntas
     let dbCx;
 
     try {
-        dbCx = await getDbConnection(); // Corrigido para usar getDbConnection
+        dbCx = await getDbConnection(); 
         const [row] = await dbCx.getAllAsync('SELECT COUNT(*) as total FROM tbPerguntas WHERE idTema = ?', [idTema]);
-        resultado = row.total; // Ajuste para usar a contagem corretamente
+        
+        // Verifica se row não é undefined ou null
+        if (row) {
+            resultado = row.total; 
+        }
     } catch (error) {
         console.error("Erro ao contar perguntas", error);
     } finally {
         if (dbCx) {
-            await dbCx.closeAsync(); // Fecha a conexão após a operação
+            await dbCx.closeAsync(); 
         }
     }
 
-    return resultado; // Retorna a contagem de perguntas
+    return resultado; 
 }

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
-import { createTable, listaTemas, countPerguntas } from '../../database/crud_temas';
+import { createTable, listaTemas, countPerguntas, getDbConnection } from '../../database/crud_temas';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window'); // Obtém as dimensões da tela
@@ -13,6 +13,7 @@ export default function Screen1({ navigation }) {
     useEffect(() => {
         const initialize = async () => {
             console.log('Entrando na Tela de temas');
+            await getDbConnection();
             await createTable();
             await atualizarTemas();
         };
@@ -53,8 +54,8 @@ export default function Screen1({ navigation }) {
                 {temas.map((tema) => (
                 <TouchableOpacity 
                     key={tema.id} 
-                    style={[styles.themeItem, { width: width * 0.9, height: height * 0.07 }]} // Ajuste a altura
-                    onPress={() => navigation.navigate('ScreenListQuestions', { tema })}>
+                    style={[styles.themeItem, { width: width * 0.9, height: height * 0.07 }]}
+                    onPress={() => navigation.navigate('ScreenQtdQuestions', { tema },console.log("Tema:",tema))}>
                     <Text style={styles.themeText}>{tema.nome}</Text>
                     <Text style={styles.countText}>
                         Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}
