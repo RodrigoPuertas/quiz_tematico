@@ -41,7 +41,7 @@ export async function obterPerguntasPorTema(idTema) {
         const registros = await dbCx.getAllAsync(`
             SELECT * 
             FROM tbPerguntas 
-            --WHERE idTema = ?`, [idTema]);
+            WHERE idTema = ?`, [idTema]);
         
         retorno = registros.map(registro => ({
             idPergunta: registro.idPergunta,

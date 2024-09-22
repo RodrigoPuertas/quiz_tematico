@@ -8,9 +8,11 @@ import * as crud_perguntas from "../../database/crud_perguntas"; // Importa os m
 import { useRoute, useNavigation } from '@react-navigation/native'; // Adiciona useNavigation
 
 const ScreenCadastroPerguntas = () => {
-    const route = useRoute();
+   
     const navigation = useNavigation(); // Obtém a navegação
+    const route = useRoute();
     const { tema } = route.params; // Acessando o objeto 'tema' passado
+
 
     const [pergunta, setPergunta] = useState('');
     const [alternativas, setAlternativas] = useState(['', '', '', '']);
@@ -27,10 +29,11 @@ const ScreenCadastroPerguntas = () => {
     };
 
     const inserirPergunta = async () => {
-        console.log(tema.idTema);
+        console.log("Objeto temas:",tema);
+        console.log("Id temas:",{tema: tema.id});
+        console.log(tema.id);
         const perguntaData = {
-            
-            idTema: tema.idTema, // ID do tema passado como parâmetro
+            idTema: tema.id, // ID do tema passado como parâmetro
             pergunta1: pergunta,
             alternativa1: alternativas[0],
             alternativa2: alternativas[1],
@@ -38,6 +41,7 @@ const ScreenCadastroPerguntas = () => {
             alternativa4: alternativas[3],
             alternativaCorreta: respostaCorreta + 1 // Armazena a alternativa correta (1 a 4)
         };
+
 
         const sucesso = await crud_perguntas.adicionarPergunta(
             perguntaData.idTema,

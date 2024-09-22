@@ -91,7 +91,7 @@ export default function ScreenRegistrationTheme({ navigation }) {
                     <TouchableOpacity 
                         key={tema.id} 
                         style={styles.themeItem} 
-                        onPress={() => navigation.navigate('ScreenListQuestions', { tema })}
+                        onPress={() => navigation.navigate('ScreenListQuestions', { tema }, console.log(tema))}
                     >
                         <Text style={styles.themeText}>{tema.nome}</Text>
                         <View style={styles.iconContainer}>

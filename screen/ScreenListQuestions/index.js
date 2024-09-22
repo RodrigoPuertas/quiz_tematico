@@ -1,29 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StatusBar, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
 import styles from './styles';
 import Button from '../../components/Button';
 import * as crud_perguntas from "../../database/crud_perguntas"; // Importar suas funções de CRUD
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ScreenRegistrationQuestions = ({ navigation }) => {
     const route = useRoute();
     const { tema } = route.params; // Acessando o objeto 'tema' passado
     const [perguntas, setPerguntas] = useState([]);
 
-    useEffect(() => {
-        const fetchPerguntas = async () => {
-            try {
-                const perguntasObtidas = await crud_perguntas.obterPerguntasPorTema(tema.idTema);
-                setPerguntas(perguntasObtidas);
-                console.log(perguntasObtidas.length); // Verifique o que está sendo retornado
-            } catch (error) {
-                Alert.alert('Erro', 'Não foi possível carregar as perguntas.');
-                console.error(error);
-            }
-        };
+    // useFocusEffect para recarregar as perguntas quando a tela ganha foco
+    useFocusEffect(
+        useCallback(() => {
+            const fetchPerguntas = async () => {
+                try {
+                    const perguntasObtidas = await crud_perguntas.obterPerguntasPorTema(tema.id);
+                    setPerguntas(perguntasObtidas);
+                    console.log(perguntasObtidas.length); // Verifique o que está sendo retornado
+                } catch (error) {
+                    Alert.alert('Erro', 'Não foi possível carregar as perguntas.');
+                    console.error(error);
+                }
+            };
 
-        fetchPerguntas();
-    }, [tema.idTema]);
+            fetchPerguntas();
+        }, [tema.id])
+    );
+
+    // Função para apagar pergunta
+    const apagarPergunta = async (idPergunta) => {
+        Alert.alert(
+            "Atenção",
+            "Você tem certeza que deseja apagar esta pergunta?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "OK",
+                    onPress: async () => {
+                        try {
+                            const isDeleted = await crud_perguntas.apagarPergunta(idPergunta);
+                            if (isDeleted) { 
+                                setPerguntas(perguntas.filter(p => p.idPergunta !== idPergunta));
+                            } else {
+                                Alert.alert('Erro', 'Falha ao apagar a pergunta.');
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            Alert.alert('Erro', 'Ocorreu um erro ao tentar apagar a pergunta.');
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
+    const editarPergunta = (idPergunta) => {
+        // Implementação da edição de perguntas
+        console.log('Editar pergunta:', idPergunta);
+    };
 
     return (
         <View style={styles.container}>
@@ -32,9 +68,17 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
             </View>
             
             <ScrollView style={styles.scrollContainer}>
-                {perguntas.map(item => (
-                    <TouchableOpacity key={item.idPergunta} style={styles.perguntaContainer}>
-                        <Text style={styles.perguntaText}>{item.pergunta}</Text>
+                {perguntas.map(pergunta => (
+                    <TouchableOpacity key={pergunta.idPergunta} style={styles.themeItem}>
+                        <Text style={styles.perguntaText}>{"Pergunta: " + pergunta.pergunta}</Text>
+                        <View style={styles.iconContainer}>
+                            <TouchableOpacity onPress={() => editarPergunta(pergunta.idPergunta)}>
+                                <Icon name="edit" size={20} color="#000" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => apagarPergunta(pergunta.idPergunta)}>
+                                <Icon style={styles.icon} name="trash" size={20} color="#000" />
+                            </TouchableOpacity>
+                        </View>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
@@ -42,7 +86,7 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
             <View style={styles.main}>
                 <Button 
                     buttonText={"Criar Pergunta"} 
-                    onPress={() => navigation.navigate('ScreenRegistrationQuestions', { tema })} // Corrigido para navegar para a tela de cadastro
+                    onPress={() => navigation.navigate('ScreenRegistrationQuestions', { tema }, console.log(tema))} 
                 />
             </View>
             

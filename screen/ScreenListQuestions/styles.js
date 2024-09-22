@@ -70,6 +70,13 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         marginTop:30
     },
+    themeItem: {
+        padding: 10,
+        marginVertical: 5,
+        backgroundColor: '#e0e0e0',
+        borderRadius: 5,
+        width: '100%',
+    },
 });
 
 export default styles;
