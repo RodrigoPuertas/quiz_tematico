@@ -41,7 +41,7 @@ export default function ScreenQuiz({ route, navigation }) {
 
             Alert.alert(
                 "Resultados do Quiz",
-                `Você acertou ${acertos} perguntas e errou ${erros}.`,
+                `Você acertou ${acertos*100/(acertos+erros)}% das perguntas.\n\nNúmeros de acertos: ${acertos} de ${acertos + erros}.`,
                 [{ text: "OK", onPress: () => navigation.navigate('ScreenGame') }]
             );
         }
