@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
         marginRight: 20,
+        
       },
       textButton: {
         color: '#ffffff',

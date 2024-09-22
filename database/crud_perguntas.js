@@ -8,34 +8,24 @@ export async function getDbConnection() {
 
 // Função para criar as tabelas
 export async function createTable() {    
-    const tbTemas = `
-    CREATE TABLE IF NOT EXISTS tbTemas (
-        idTema INTEGER PRIMARY KEY AUTOINCREMENT,
-        descTema TEXT NOT NULL 
-    );`;
     
     const tbPerguntas = `
     CREATE TABLE IF NOT EXISTS tbPerguntas (
         idPergunta INTEGER PRIMARY KEY AUTOINCREMENT,
         idTema INTEGER,
-        pergunta TEXT NOT NULL,
+        pergunta1 TEXT NOT NULL,
+        alternativa1 TEXT NOT NULL,
+        alternativa2 TEXT NOT NULL,
+        alternativa3 TEXT NOT NULL,
+        alternativa4 TEXT NOT NULL,
+        alternativaCorreta INTEGER,
         FOREIGN KEY (idTema) REFERENCES tbTemas(idTema) ON DELETE CASCADE
-    );`;
-
-    const tbAlternativas = `
-    CREATE TABLE IF NOT EXISTS tbAlternativas (
-        idAlternativa INTEGER PRIMARY KEY AUTOINCREMENT,
-        idPergunta INTEGER,
-        alternativa TEXT NOT NULL,
-        alternativaCorreta INTEGER, -- 0 incorreta / 1 correta
-        FOREIGN KEY (idPergunta) REFERENCES tbPerguntas(idPergunta) ON DELETE CASCADE
     );`;
 
     try {
         var cx = await getDbConnection();
-        await cx.execAsync(tbTemas);
         await cx.execAsync(tbPerguntas);
-        await cx.execAsync(tbAlternativas);
+
     } catch (error) {
         console.error('Erro na criação das tabelas:', error);
     } finally {
@@ -45,14 +35,15 @@ export async function createTable() {
     }
 }
 
-// Função para listar temas
-export async function listaTemas() {
+
+export async function listaPerguntas(tema) {
     let retorno = [];
     let dbCx;
 
     try {
         dbCx = await getDbConnection();
-        const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas order by idTema desc');
+        const registros = await dbCx.getAllAsync('SELECT * FROM tbPerguntas order by idTema', 
+            ' desc where idTema = ?',[Tema]);
         retorno = registros.map(registro => ({
             id: registro.idTema,
             nome: registro.descTema,
@@ -172,46 +163,6 @@ export async function adicionaTema(Tema) {
         result = await dbCx.runAsync(query, [Tema]);
     } catch (error) {
         console.error("Erro ao inserir tema", error);
-    } finally {
-        if (dbCx) {
-            await dbCx.closeAsync();
-        }
-    }
-
-    return result && result.changes === 1;
-}
-
-// Função para adicionar pergunta
-export async function adicionaPergunta(pergunta) {
-    let result;
-    let dbCx;
-
-    try {
-        dbCx = await getDbConnection();
-        const query = 'INSERT INTO tbPerguntas (pergunta, idTema) VALUES (?, ?)';
-        result = await dbCx.runAsync(query, [pergunta.pergunta, pergunta.idTema]);
-    } catch (error) {
-        console.error("Erro ao inserir pergunta", error);
-    } finally {
-        if (dbCx) {
-            await dbCx.closeAsync();
-        }
-    }
-
-    return result && result.changes === 1;
-}
-
-// Função para adicionar alternativas
-export async function adicionaAlternativas(alternativa) {
-    let result;
-    let dbCx;
-
-    try {
-        dbCx = await getDbConnection();
-        const query = 'INSERT INTO tbAlternativas (alternativa, idPergunta, alternativaCorreta) VALUES (?, ?, ?)';
-        result = await dbCx.runAsync(query, [alternativa.alternativa, alternativa.idPergunta, alternativa.alternativaCorreta]);
-    } catch (error) {
-        console.error("Erro ao inserir alternativa", error);
     } finally {
         if (dbCx) {
             await dbCx.closeAsync();

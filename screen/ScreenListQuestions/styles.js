@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         justifyContent: 'space-between',
-        margin: 10,
     },
     header: {
         backgroundColor: '#120a51',
@@ -65,9 +64,6 @@ const styles = StyleSheet.create({
     lbl:{
         fontSize: 18,
         marginBottom:10,
-    },
-    buttonText:{
-        fontSize: 18,
     },
 });
 
