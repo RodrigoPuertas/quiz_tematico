@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         justifyContent: 'space-between',
-        margin: 10,
+
     },
     header: {
         backgroundColor: '#120a51',

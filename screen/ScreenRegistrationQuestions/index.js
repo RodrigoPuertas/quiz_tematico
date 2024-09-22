@@ -4,11 +4,12 @@ import { StatusBar } from 'expo-status-bar';
 import Button from '../../components/Button'; // Importa o botão customizado
 import styles from './styles'; // Importa os estilos
 import Icon from 'react-native-vector-icons/FontAwesome'; // Certifique-se de instalar a biblioteca de ícones
-import * as crud_perguntas from "../../database/crud_perguntas"
-import { useRoute } from '@react-navigation/native';
+import * as crud_perguntas from "../../database/crud_perguntas"; // Importa os métodos do SQLite
+import { useRoute, useNavigation } from '@react-navigation/native'; // Adiciona useNavigation
 
 const ScreenCadastroPerguntas = () => {
     const route = useRoute();
+    const navigation = useNavigation(); // Obtém a navegação
     const { tema } = route.params; // Acessando o objeto 'tema' passado
 
     const [pergunta, setPergunta] = useState('');
@@ -27,7 +28,7 @@ const ScreenCadastroPerguntas = () => {
 
     const inserirPergunta = async () => {
         const perguntaData = {
-            idTema: 1, // ID do tema, ajuste conforme necessário
+            idTema: tema.idTema, // ID do tema passado como parâmetro
             pergunta1: pergunta,
             alternativa1: alternativas[0],
             alternativa2: alternativas[1],
@@ -36,16 +37,24 @@ const ScreenCadastroPerguntas = () => {
             alternativaCorreta: respostaCorreta + 1 // Armazena a alternativa correta (1 a 4)
         };
 
-        const values = [
+        const sucesso = await crud_perguntas.adicionarPergunta(
             perguntaData.idTema,
             perguntaData.pergunta1,
-            perguntaData.alternativa1,
-            perguntaData.alternativa2,
-            perguntaData.alternativa3,
-            perguntaData.alternativa4,
+            alternativas,
             perguntaData.alternativaCorreta
-        ];
+        );
 
+        if (sucesso) {
+            Alert.alert('Sucesso', 'Pergunta cadastrada com sucesso!');
+            // Limpar os campos após o cadastro
+            setPergunta('');
+            setAlternativas(['', '', '', '']);
+            setRespostaCorreta(null);
+            // Navega para a tela de listagem de perguntas
+            navigation.navigate('ScreenListQuestions', { tema });
+        } else {
+            Alert.alert('Erro', 'Falha ao cadastrar a pergunta.');
+        }
     };
 
     const cadastrarPergunta = () => {
@@ -53,7 +62,7 @@ const ScreenCadastroPerguntas = () => {
             Alert.alert('Erro', 'Por favor, preencha a pergunta.');
             return;
         }
-        
+
         if (alternativas.some(a => !a)) {
             Alert.alert('Erro', 'Por favor, preencha todas as alternativas.');
             return;
@@ -65,7 +74,9 @@ const ScreenCadastroPerguntas = () => {
         }
 
         // Chama a função de inserção no banco de dados
-        inserirPergunta();
+        inserirPergunta(); // Chama a inserção diretamente
+
+        
     };
 
     return (
