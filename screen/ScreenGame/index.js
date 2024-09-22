@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
-import { createTable, listaTemas, countPerguntas, getDbConnection } from '../../database/crud_temas';
+import { criarTabelasPerguntas } from '../../database/crud_perguntas';
+import { createTableTemas, listaTemas, countPerguntas, getDbConnection } from '../../database/crud_temas';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window'); // Obtém as dimensões da tela
@@ -14,7 +15,8 @@ export default function Screen1({ navigation }) {
         const initialize = async () => {
             console.log('Entrando na Tela de temas');
             await getDbConnection();
-            await createTable();
+            await createTableTemas();
+            await criarTabelasPerguntas();
             await atualizarTemas();
         };
 

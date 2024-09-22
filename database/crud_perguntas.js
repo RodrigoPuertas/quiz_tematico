@@ -7,7 +7,7 @@ export async function obterConexaoDb() {
 }
 
 // Função para criar as tabelas
-export async function criarTabelas() {
+export async function criarTabelasPerguntas() {
     //const dropTable = `DROP TABLE IF EXISTS tbPerguntas;`; // Comando para dropar a tabela
     const tbPerguntas = `
     CREATE TABLE IF NOT EXISTS tbPerguntas (
