@@ -152,3 +152,4 @@ export async function apagarPergunta(idPergunta) {
 
     return resultado && resultado.changes === 1; // Retorna true se a pergunta foi apagada com sucesso
 }
+

@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
     buttonText:{
         fontSize: 18,
     },
+    countText:{
+        maringTop:5,
+    }
 });
 
 export default styles;

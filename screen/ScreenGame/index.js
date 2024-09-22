@@ -1,45 +1,73 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useEffect } from 'react';
+import { Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { useEffect, useState } from 'react';
+import { createTable, listaTemas, countPerguntas } from '../../database/crud_temas';
+import styles from './styles';
 
 export default function Screen1({ navigation }) {
+    const [temas, setTemas] = useState([]);
+    const [contagensPerguntas, setContagensPerguntas] = useState({}); // Contagem de perguntas por tema
 
     useEffect(() => {
-        console.log('Entrando na Tela de jogo');
-        return () => {
-            console.log('Finalizando tela: Tela de jogo');
+        const initialize = async () => {
+            console.log('Entrando na Tela de temas');
+            await createTable();
+            await atualizarTemas();
         };
-    }, []);
+
+        initialize();
+
+        const unsubscribe = navigation.addListener('focus', () => {
+            atualizarTemas(); // Atualiza temas sempre que a tela estiver em foco
+        });
+
+        return () => {
+            unsubscribe(); // Limpa o listener ao desmontar
+            console.log('Finalizando tela: Tela de temas');
+        };
+    }, [navigation]);
+
+    const atualizarTemas = async () => {
+        const temasList = await listaTemas();
+        setTemas(temasList);
+        await atualizarContagensPerguntas(temasList); // Atualiza a contagem de perguntas
+    };
+
+    const atualizarContagensPerguntas = async (temasCarregados) => {
+        const novasContagens = {};
+        for (let tema of temasCarregados) {
+            const contagem = await countPerguntas(tema.id);
+            novasContagens[tema.id] = contagem; // Armazena a contagem
+        }
+        setContagensPerguntas(novasContagens);
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.texto}>Você está na Tela 1!</Text>
-            <Text></Text><Text></Text>
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('HomePage')}>
-                <Text style={styles.texto}>Voltar para a Home</Text>
-            </TouchableOpacity>
+            <View style={styles.header}>
+                <Text style={styles.title}>ESCOLHA SEU QUIZ</Text>
+            </View>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                {temas.map((tema) => (
+                    <TouchableOpacity 
+                        key={tema.id} 
+                        style={styles.themeItem} 
+                        onPress={() => navigation.navigate('ScreenListQuestions', { tema })}
+                    >
+                        <Text style={styles.themeText}>{tema.nome}</Text>
+                        <Text style={styles.countText}>
+                            Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+            <View style={styles.main}>
+                {/* Conteúdo principal, se necessário */}
+            </View>
+            <View style={styles.footer}>
+                {/* Conteúdo do rodapé, se necessário */}
+            </View>
             <StatusBar style="auto" />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    texto: {
-        fontSize: 30,
-    },
-    botao: {
-        width: "90%",
-        height: 70,
-        borderColor: '#000',
-        borderWidth: 2,
-        borderRadius: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-});

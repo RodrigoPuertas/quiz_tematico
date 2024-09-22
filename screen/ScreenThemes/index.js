@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
-import { createTable, listaTemas, adicionaTema, existeTema, apagarTemaDoBanco, atualizaTemaDoBanco } from '../../database/crud_temas';
+import { listaTemas, adicionaTema, existeTema, apagarTemaDoBanco, atualizaTemaDoBanco, countPerguntas } from '../../database/crud_temas';
 import styles from './styles';
 import Button from '../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,49 +11,58 @@ export default function ScreenRegistrationTheme({ navigation }) {
     const [novoTema, setNovoTema] = useState('');
     const [textId, setTextId] = useState('');
     const [temaEditando, setTemaEditando] = useState(null);
+    const [contagensPerguntas, setContagensPerguntas] = useState({}); // Contagem de perguntas por tema
+
+    // Função para carregar temas e contar perguntas
+    const carregarTemas = async () => {
+        try {
+            const temasCarregados = await listaTemas(); // Carrega os temas do banco
+            setTemas(temasCarregados);
+            await atualizarContagensPerguntas(temasCarregados); // Atualiza a contagem de perguntas
+        } catch (error) {
+            console.error("Erro ao carregar temas:", error);
+        }
+    };
+
+    const atualizarContagensPerguntas = async (temasCarregados) => {
+        const novasContagens = {};
+        for (let tema of temasCarregados) {
+            const contagem = await countPerguntas(tema.id);
+            novasContagens[tema.id] = contagem; // Armazena a contagem
+        }
+        setContagensPerguntas(novasContagens);
+    };
 
     useEffect(() => {
-        const initialize = async () => {
-            console.log('Entrando na Tela de temas');
-            await createTable();
-            await atualizarTemas();
-        };
+        const unsubscribe = navigation.addListener('focus', () => {
+            carregarTemas(); // Carregar dados sempre que a tela for chamada
+        });
 
-        initialize();
-
-        return () => {
-            console.log('Finalizando tela: Tela de temas');
-        };
-    }, []);
-
-    const atualizarTemas = async () => {
-        const temasList = await listaTemas();
-        setTemas(temasList);
-    };
+        return unsubscribe; // Limpa o listener quando o componente desmontar
+    }, [navigation]);
 
     const salvarTema = async () => {
         const temaUpper = novoTema.toUpperCase();
         if (temaUpper && !(await existeTema(temaUpper))) {
             const isSaved = await adicionaTema(temaUpper);
             if (isSaved) {
-                console.log('Tema salvo com sucesso!'); // Log para depuração
-                setNovoTema(''); // Limpa o campo após salvar
-                await atualizarTemas(); // Atualiza a lista de temas
+                setNovoTema(''); // Limpa o campo
+                await carregarTemas(); // Atualiza os temas
             } else {
                 Alert.alert('Erro', 'Erro ao salvar o tema.');
             }
         } else {
-            Alert.alert('Erro', 'Por favor, insira um tema válido ou o tema já existe.');
+            Alert.alert('Erro', 'Tema inválido ou já existente.');
         }
     };
 
     const apagarTema = async (idTema) => {
-        Alert.alert("Atenção", "Você tem certeza que deseja apagar este tema?", [
+        Alert.alert("Atenção", "Deseja apagar este tema?", [
             { text: "Cancelar", style: "cancel" },
             { text: "OK", onPress: async () => {
                 const isDeleted = await apagarTemaDoBanco(idTema);
                 if (isDeleted) {
-                    await atualizarTemas();
+                    await carregarTemas(); // Atualiza os temas
                 }
             }}
         ]);
@@ -73,7 +82,7 @@ export default function ScreenRegistrationTheme({ navigation }) {
                 setNovoTema('');
                 setTemaEditando(null);
                 setTextId('');
-                await atualizarTemas();
+                await carregarTemas(); // Atualiza os temas
             } else {
                 Alert.alert('Erro', 'Erro ao atualizar o tema.');
             }
@@ -81,7 +90,6 @@ export default function ScreenRegistrationTheme({ navigation }) {
     };
 
     return (
-
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>TEMAS</Text>
@@ -91,9 +99,10 @@ export default function ScreenRegistrationTheme({ navigation }) {
                     <TouchableOpacity 
                         key={tema.id} 
                         style={styles.themeItem} 
-                        onPress={() => navigation.navigate('ScreenListQuestions', { tema }, console.log(tema))}
+                        onPress={() => navigation.navigate('ScreenListQuestions', { tema })}
                     >
                         <Text style={styles.themeText}>{tema.nome}</Text>
+                        <Text style={styles.countText}>Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}</Text>
                         <View style={styles.iconContainer}>
                             <TouchableOpacity onPress={() => editarTema(tema)}>
                                 <Icon name="edit" size={20} color="#000" />
@@ -106,7 +115,6 @@ export default function ScreenRegistrationTheme({ navigation }) {
                 ))}
             </ScrollView>
             <View style={styles.main}>
-                <Text style={styles.lbl}>{textId}</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Digite o nome do tema"
@@ -114,12 +122,9 @@ export default function ScreenRegistrationTheme({ navigation }) {
                     onChangeText={setNovoTema}
                 />
                 <Button 
-                    onPress={temaEditando ? atualizarTema : salvarTema} // Chama a função de atualizar ou salvar
-                    buttonText={temaEditando ? "Atualizar" : "Salvar"} // Altera o texto do botão
+                    onPress={temaEditando ? atualizarTema : salvarTema} 
+                    buttonText={temaEditando ? "Atualizar" : "Salvar"}
                 />
-            </View>
-            <View style={styles.footer}>
-                {/* Conteúdo do rodapé, se necessário */}
             </View>
             <StatusBar style="auto" />
         </View>
