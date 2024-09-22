@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import { listaTemas, adicionaTema, existeTema, apagarTemaDoBanco, atualizaTemaDoBanco, countPerguntas } from '../../database/crud_temas';
 import styles from './styles';
@@ -90,7 +90,11 @@ export default function ScreenRegistrationTheme({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Comportamento do teclado
+            keyboardVerticalOffset={100} // Ajuste para o seu cabeçalho
+        >
             <View style={styles.header}>
                 <Text style={styles.title}>TEMAS</Text>
             </View>
@@ -127,6 +131,6 @@ export default function ScreenRegistrationTheme({ navigation }) {
                 />
             </View>
             <StatusBar style="auto" />
-        </View>
+        </KeyboardAvoidingView>
     );
 }

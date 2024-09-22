@@ -39,41 +39,34 @@ const MainTabNavigator = () => {
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
-
                     if (route.name === 'Game') {
                         iconName = 'game-controller'; 
                     } else if (route.name === 'Cadastro de Temas / Perguntas') {
                         iconName = 'book'; 
-                    } else if (route.name === 'Info') {
+                    } else if (route.name === 'Forms') {
                         iconName = 'clipboard'; 
                     }
-
                     return <Icon name={iconName} size={size} color={color} />;
                 },
+                tabBarStyle: {
+                    backgroundColor: '#393e46', // Cor de fundo da tab bar
+                    borderTopWidth: 0, // Remove a borda superior
+                },
+                tabBarLabelStyle: {
+                    fontSize: 12, // Ajusta o tamanho do texto
+                },
+                tabBarActiveTintColor: '#00adb5', // Cor quando o item está ativo
+                tabBarInactiveTintColor: 'gray', // Cor quando o item está inativo
             })}
-            tabBarOptions={{
-                activeTintColor: '#120a51',
-                inactiveTintColor: 'gray',
-            }}
         >
-            <Tab.Screen 
-                name="Game" 
-                component={ScreenGame} 
-                options={{ headerShown: false }} 
-            />
-            <Tab.Screen 
-                name="Cadastro de Temas / Perguntas" 
-                component={ThemesStack} 
-                options={{ headerShown: false }} 
-            />
-            <Tab.Screen 
-                name="Info" 
-                component={ScreenForms} 
-                options={{ headerShown: false }} 
-            />
+            <Tab.Screen name="Game" component={ScreenGame} options={{ headerShown: false }} />
+            <Tab.Screen name="Cadastro de Temas / Perguntas" component={ThemesStack} options={{ headerShown: false }} />
+            <Tab.Screen name="Forms" component={ScreenForms} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 };
+
+
 
 export default function AppNavigator() {
     return (

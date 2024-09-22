@@ -2,72 +2,57 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#f5f5f5',
-        justifyContent: 'space-between',
-
-    },
-    header: {
-        backgroundColor: '#120a51',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        flexGrow: 1,
+        padding: 20,
+        backgroundColor: '#222831',
         alignItems: 'center',
     },
+    header: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     title: {
-        fontSize: 30,
-        color: '#FFFFFF',
+        fontSize: 24,
         fontWeight: 'bold',
-        marginTop: 20,
+        color: '#eeeeee',
+        marginBottom: 10,
     },
     main: {
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 20,
     },
-    input: {
-        height: 60,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 20,
-        width: '100%',
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        fontSize: 25,
-    },
     scrollContainer: {
-        paddingHorizontal: 20,
         paddingBottom: 20,
-        marginTop:30
+        width: '100%', // Garante que o ScrollView ocupe toda a largura
     },
     themeItem: {
-        padding: 10,
+        padding: 15,
+        paddingVertical: 10, // Ajuste este valor
         marginVertical: 5,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 5,
+        backgroundColor: '#393e46',
+        borderRadius: 10,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
         width: '100%',
-    },
-    themeText: {
-        fontSize: 18,
-    },
-    footer: {
-        backgroundColor: '#120a51',
-        paddingVertical: 10,
         alignItems: 'center',
     },
-    iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginHorizontal: 10,
-    },
-    icon:{
-        marginHorizontal: 10,
-    },
-    lbl:{
+    
+    themeText: {
         fontSize: 18,
-        marginBottom:10,
+        color: '#eeeeee', // Cor do texto
     },
-    buttonText:{
-        fontSize: 18,
+    countText: {
+        fontSize: 16,
+        color: '#00adb5', // Cor para a contagem de perguntas
+    },
+    footer: {
+        marginTop: 20,
+        width: '100%',
+        alignItems: 'center',
     },
 });
 

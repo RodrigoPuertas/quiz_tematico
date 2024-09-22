@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
 import { createTable, listaTemas, countPerguntas } from '../../database/crud_temas';
 import styles from './styles';
+
+const { width, height } = Dimensions.get('window'); // Obtém as dimensões da tela
 
 export default function Screen1({ navigation }) {
     const [temas, setTemas] = useState([]);
@@ -49,16 +51,16 @@ export default function Screen1({ navigation }) {
             </View>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {temas.map((tema) => (
-                    <TouchableOpacity 
-                        key={tema.id} 
-                        style={styles.themeItem} 
-                        onPress={() => navigation.navigate('ScreenListQuestions', { tema })}
-                    >
-                        <Text style={styles.themeText}>{tema.nome}</Text>
-                        <Text style={styles.countText}>
-                            Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}
-                        </Text>
-                    </TouchableOpacity>
+                <TouchableOpacity 
+                    key={tema.id} 
+                    style={[styles.themeItem, { width: width * 0.9, height: height * 0.07 }]} // Ajuste a altura
+                    onPress={() => navigation.navigate('ScreenListQuestions', { tema })}>
+                    <Text style={styles.themeText}>{tema.nome}</Text>
+                    <Text style={styles.countText}>
+                        Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}
+                    </Text>
+                </TouchableOpacity>
+                
                 ))}
             </ScrollView>
             <View style={styles.main}>
