@@ -1,42 +1,65 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
-import { criarTabelasPerguntas } from '../../database/crud_perguntas';
 import { createTableTemas, listaTemas, countPerguntas, getDbConnection } from '../../database/crud_temas';
 import styles from './styles';
+import { criarTabelasPerguntas } from '../../database/crud_perguntas';
+
 
 const { width, height } = Dimensions.get('window'); // Obtém as dimensões da tela
 
-export default function Screen1({ navigation }) {
+export default function ScreenGame({ navigation }) {
     const [temas, setTemas] = useState([]);
     const [contagensPerguntas, setContagensPerguntas] = useState({}); // Contagem de perguntas por tema
+    const [initialized, setInitialized] = useState(false);
 
     useEffect(() => {
         const initialize = async () => {
-            console.log('Entrando na Tela de temas');
-            await getDbConnection();
-            await createTableTemas();
-            await criarTabelasPerguntas();
-            await atualizarTemas();
+            try {
+                console.log('Entrando na Tela de temas');
+                await createTableTemas(); // Cria a tabela de temas
+                await criarTabelasPerguntas(); // Cria a tabela de perguntas, se necessário
+                await atualizarTemas(); // Atualiza temas e contagens na inicialização
+                setInitialized(true); // Marca como inicializado
+            } catch (error) {
+                console.error("Erro na inicialização:", error); // Log de erro
+            }
         };
-
-        initialize();
-
+    
+        if (!initialized) {
+            initialize();
+        }
+    
         const unsubscribe = navigation.addListener('focus', () => {
-            atualizarTemas(); // Atualiza temas sempre que a tela estiver em foco
+            if (initialized) {
+                atualizarTemas(); // Atualiza temas sempre que a tela estiver em foco
+            }
         });
-
+    
         return () => {
             unsubscribe(); // Limpa o listener ao desmontar
             console.log('Finalizando tela: Tela de temas');
         };
-    }, [navigation]);
+    }, [navigation, initialized]);
+    
+    
 
     const atualizarTemas = async () => {
-        const temasList = await listaTemas();
-        setTemas(temasList);
-        await atualizarContagensPerguntas(temasList); // Atualiza a contagem de perguntas
+        try {
+            console.log("Entrando atualiza");
+            const temasList = await listaTemas();
+            console.log("temasList", temasList);
+            if (!temasList || temasList.length === 0) {
+                console.warn("Nenhum tema encontrado.");
+                return;
+            }
+            setTemas(temasList);
+            await atualizarContagensPerguntas(temasList); // Atualiza a contagem de perguntas
+        } catch (error) {
+            console.error("Erro ao atualizar temas:", error);
+        }
     };
+    
 
     const atualizarContagensPerguntas = async (temasCarregados) => {
         const novasContagens = {};

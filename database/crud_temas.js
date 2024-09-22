@@ -30,24 +30,23 @@ export async function listaTemas() {
     try {
         dbCx = await getDbConnection();
         const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas ORDER BY idTema DESC');
-        
-        // Verifica se registros foram retornados antes de mapear
+        console.log("registros",registros);
         if (registros) {
             retorno = registros.map(registro => ({
                 id: registro.idTema,
                 nome: registro.descTema,
             }));
         }
+        console.log("retorno",retorno)
     } catch (error) {
         console.error("Erro ao listar temas", error);
     } finally {
-        if (dbCx) {
-            await dbCx.closeAsync(); // Fecha a conexão após a operação
-        }
+        await dbCx.closeAsync(); // Fecha a conexão após a operação, mas apenas aqui
     }
 
     return retorno;
 }
+
 
 
 

@@ -7,8 +7,8 @@ export async function obterConexaoDb() {
 }
 
 // Função para criar as tabelas
+// Função para criar a tabela de perguntas
 export async function criarTabelasPerguntas() {
-    //const dropTable = `DROP TABLE IF EXISTS tbPerguntas;`; // Comando para dropar a tabela
     const tbPerguntas = `
     CREATE TABLE IF NOT EXISTS tbPerguntas (
         idPergunta INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,14 +22,20 @@ export async function criarTabelasPerguntas() {
         FOREIGN KEY (idTema) REFERENCES tbTemas(idTema) ON DELETE CASCADE
     );`;
 
+    let dbCx;
+
     try {
-        const cx = await obterConexaoDb();
-        //await cx.execAsync(dropTable); // Executa o comando para dropar a tabela
-        await cx.execAsync(tbPerguntas); // Em seguida, cria a tabela
+        dbCx = await obterConexaoDb(); // Use a função de conexão correta
+        await dbCx.execAsync(tbPerguntas); // Cria a tabela
     } catch (error) {
         console.error('Erro na criação das tabelas:', error);
+    } finally {
+        if (dbCx) {
+            await dbCx.closeAsync(); // Fecha a conexão após a operação
+        }
     }
 }
+
 
 // Função para listar perguntas por tema
 export async function obterPerguntasPorTema(idTema) {

@@ -11,7 +11,8 @@ export default function ScreenRegistrationTheme({ navigation }) {
     const [novoTema, setNovoTema] = useState('');
     const [textId, setTextId] = useState('');
     const [temaEditando, setTemaEditando] = useState(null);
-    const [contagensPerguntas, setContagensPerguntas] = useState({}); // Contagem de perguntas por tema
+    const [contagensPerguntas, setContagensPerguntas] = useState({});
+    const [initialized, setInitialized] = useState(false); // Novo estado
 
     // Função para carregar temas e contar perguntas
     const carregarTemas = async () => {
@@ -34,12 +35,23 @@ export default function ScreenRegistrationTheme({ navigation }) {
     };
 
     useEffect(() => {
+        const initialize = async () => {
+            await carregarTemas(); // Carregar temas na inicialização
+            setInitialized(true); // Marca como inicializado
+        };
+
+        initialize();
+
         const unsubscribe = navigation.addListener('focus', () => {
-            carregarTemas(); // Carregar dados sempre que a tela for chamada
+            if (initialized) {
+                carregarTemas(); // Carregar dados sempre que a tela for chamada
+            }
         });
 
-        return unsubscribe; // Limpa o listener quando o componente desmontar
-    }, [navigation]);
+        return () => {
+            unsubscribe(); // Limpa o listener quando o componente desmontar
+        };
+    }, [navigation, initialized]);
 
     const salvarTema = async () => {
         const temaUpper = novoTema.toUpperCase();
@@ -106,7 +118,9 @@ export default function ScreenRegistrationTheme({ navigation }) {
                         onPress={() => navigation.navigate('ScreenListQuestions', { tema })}
                     >
                         <Text style={styles.themeText}>{tema.nome}</Text>
-                        <Text style={styles.countText}>Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}</Text>
+                        <Text style={styles.countText}>
+                            Perguntas: {contagensPerguntas[tema.id] !== undefined ? contagensPerguntas[tema.id] : 0}
+                        </Text>
                         <View style={styles.iconContainer}>
                             <TouchableOpacity onPress={() => editarTema(tema)}>
                                 <Icon name="edit" size={20} color="#000" />
