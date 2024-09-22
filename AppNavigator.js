@@ -44,7 +44,7 @@ const MainTabNavigator = () => {
                         iconName = 'game-controller'; 
                     } else if (route.name === 'Cadastro de Temas / Perguntas') {
                         iconName = 'book'; 
-                    } else if (route.name === 'Forms') {
+                    } else if (route.name === 'Info') {
                         iconName = 'clipboard'; 
                     }
 
@@ -67,7 +67,7 @@ const MainTabNavigator = () => {
                 options={{ headerShown: false }} 
             />
             <Tab.Screen 
-                name="Forms" 
+                name="Info" 
                 component={ScreenForms} 
                 options={{ headerShown: false }} 
             />

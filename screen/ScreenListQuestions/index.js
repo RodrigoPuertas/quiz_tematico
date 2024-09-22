@@ -56,9 +56,8 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
         );
     };
 
-    const editarPergunta = (idPergunta) => {
-        // Implementação da edição de perguntas
-        console.log('Editar pergunta:', idPergunta);
+    const editarPergunta = (pergunta) => {
+        navigation.navigate('ScreenRegistrationQuestions', { tema, perguntaExistente: pergunta });
     };
 
     return (
@@ -72,7 +71,7 @@ const ScreenRegistrationQuestions = ({ navigation }) => {
                     <TouchableOpacity key={pergunta.idPergunta} style={styles.themeItem}>
                         <Text style={styles.perguntaText}>{"Pergunta: " + pergunta.pergunta}</Text>
                         <View style={styles.iconContainer}>
-                            <TouchableOpacity onPress={() => editarPergunta(pergunta.idPergunta)}>
+                            <TouchableOpacity onPress={() =>  editarPergunta(pergunta)}>
                                 <Icon name="edit" size={20} color="#000" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => apagarPergunta(pergunta.idPergunta)}>

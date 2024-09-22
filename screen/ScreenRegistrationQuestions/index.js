@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Button from '../../components/Button'; // Importa o botão customizado
@@ -8,15 +8,29 @@ import * as crud_perguntas from "../../database/crud_perguntas"; // Importa os m
 import { useRoute, useNavigation } from '@react-navigation/native'; // Adiciona useNavigation
 
 const ScreenCadastroPerguntas = () => {
-   
     const navigation = useNavigation(); // Obtém a navegação
     const route = useRoute();
-    const { tema } = route.params; // Acessando o objeto 'tema' passado
-
+    const { tema, perguntaExistente } = route.params; // Acessando o objeto 'tema' e 'perguntaExistente' se houver
 
     const [pergunta, setPergunta] = useState('');
     const [alternativas, setAlternativas] = useState(['', '', '', '']);
     const [respostaCorreta, setRespostaCorreta] = useState(null); // Armazena o índice da alternativa correta
+
+    // UseEffect para preencher os campos automaticamente se for uma edição
+    useEffect(() => {
+        if (perguntaExistente) {
+            console.log(perguntaExistente); // Verifique se as alternativas estão corretas
+            setPergunta(perguntaExistente.pergunta);
+            setAlternativas([
+                perguntaExistente.alternativas[0],
+                perguntaExistente.alternativas[1],
+                perguntaExistente.alternativas[2],
+                perguntaExistente.alternativas[3],
+            ]);
+            console.log(perguntaExistente.alternativas[0]);
+            setRespostaCorreta(perguntaExistente.alternativaCorreta - 1); // Ajusta o índice
+        }
+    }, [perguntaExistente]);
 
     const handleAlternativaChange = (text, index) => {
         const newAlternativas = [...alternativas];
@@ -28,10 +42,7 @@ const ScreenCadastroPerguntas = () => {
         setRespostaCorreta(index); // Define a alternativa selecionada como correta
     };
 
-    const inserirPergunta = async () => {
-        console.log("Objeto temas:",tema);
-        console.log("Id temas:",{tema: tema.id});
-        console.log(tema.id);
+    const salvarPergunta = async () => {
         const perguntaData = {
             idTema: tema.id, // ID do tema passado como parâmetro
             pergunta1: pergunta,
@@ -42,28 +53,43 @@ const ScreenCadastroPerguntas = () => {
             alternativaCorreta: respostaCorreta + 1 // Armazena a alternativa correta (1 a 4)
         };
 
+        if (perguntaExistente) {
+            // Atualizar pergunta existente
+            const sucesso = await crud_perguntas.atualizarPergunta(
+                perguntaExistente.idPergunta,
+                perguntaData.pergunta1,
+                alternativas,
+                perguntaData.alternativaCorreta
+            );
 
-        const sucesso = await crud_perguntas.adicionarPergunta(
-            perguntaData.idTema,
-            perguntaData.pergunta1,
-            alternativas,
-            perguntaData.alternativaCorreta
-        );
-
-        if (sucesso) {
-            Alert.alert('Sucesso', 'Pergunta cadastrada com sucesso!');
-            // Limpar os campos após o cadastro
-            setPergunta('');
-            setAlternativas(['', '', '', '']);
-            setRespostaCorreta(null);
-            // Navega para a tela de listagem de perguntas
-            navigation.navigate('ScreenListQuestions', { tema });
+            if (sucesso) {
+                Alert.alert('Sucesso', 'Pergunta atualizada com sucesso!');
+                navigation.navigate('ScreenListQuestions', { tema });
+            } else {
+                Alert.alert('Erro', 'Falha ao atualizar a pergunta.');
+            }
         } else {
-            Alert.alert('Erro', 'Falha ao cadastrar a pergunta.');
+            // Inserir nova pergunta
+            const sucesso = await crud_perguntas.adicionarPergunta(
+                perguntaData.idTema,
+                perguntaData.pergunta1,
+                alternativas,
+                perguntaData.alternativaCorreta
+            );
+
+            if (sucesso) {
+                Alert.alert('Sucesso', 'Pergunta cadastrada com sucesso!');
+                setPergunta('');
+                setAlternativas(['', '', '', '']);
+                setRespostaCorreta(null);
+                navigation.navigate('ScreenListQuestions', { tema });
+            } else {
+                Alert.alert('Erro', 'Falha ao cadastrar a pergunta.');
+            }
         }
     };
 
-    const cadastrarPergunta = () => {
+    const validarPergunta = () => {
         if (!pergunta) {
             Alert.alert('Erro', 'Por favor, preencha a pergunta.');
             return;
@@ -79,16 +105,14 @@ const ScreenCadastroPerguntas = () => {
             return;
         }
 
-        // Chama a função de inserção no banco de dados
-        inserirPergunta(); // Chama a inserção diretamente
-
-        
+        // Chama a função de salvar (inserir ou atualizar)
+        salvarPergunta();
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Cadastrar Pergunta</Text>
+                <Text style={styles.title}>{perguntaExistente ? 'Editar Pergunta' : 'Cadastrar Pergunta'}</Text>
             </View>
             <TextInput
                 style={styles.pergunta}
@@ -116,8 +140,8 @@ const ScreenCadastroPerguntas = () => {
             ))}
             <View style={styles.ViewButton}>
                 <Button 
-                    buttonText="Salvar" 
-                    onPress={cadastrarPergunta} 
+                    buttonText={perguntaExistente ? "Atualizar" : "Salvar"} 
+                    onPress={validarPergunta} 
                 />    
             </View>
             <StatusBar style="auto" />
