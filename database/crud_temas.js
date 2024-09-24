@@ -46,7 +46,29 @@ export async function listaTemas() {
 
     return retorno;
 }
+export async function listaTemasComPerguntas() {
+    let retorno = [];
+    let dbCx;
 
+    try {
+        dbCx = await getDbConnection();
+        const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas A INNER JOIN tbPerguntas B ON A.idTema = b.idTema ORDER BY idTema DESC');
+        console.log("registros",registros);
+        if (registros) {
+            retorno = registros.map(registro => ({
+                id: registro.idTema,
+                nome: registro.descTema,
+            }));
+        }
+        console.log("retorno",retorno)
+    } catch (error) {
+        console.error("Erro ao listar temas", error);
+    } finally {
+        await dbCx.closeAsync(); // Fecha a conexão após a operação, mas apenas aqui
+    }
+
+    return retorno;
+}
 
 
 

@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
+        marginTop: 30,
         fontSize: 24,
         fontWeight: 'bold',
         color: '#eeeeee',
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderColor: '#393e46',
         borderWidth: 2,
+        marginTop: 10,
     },
     sectionContainer: {
         marginBottom: 20,

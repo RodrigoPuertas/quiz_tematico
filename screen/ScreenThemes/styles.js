@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#FFFFFF',
         fontWeight: 'bold',
+        marginTop: 20,
     },
     main: {
         flexGrow: 1,

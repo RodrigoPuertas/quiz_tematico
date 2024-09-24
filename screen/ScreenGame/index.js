@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity, ScrollView, Alert, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
-import { createTableTemas, listaTemas, countPerguntas, getDbConnection } from '../../database/crud_temas';
+import { createTableTemas, listaTemasComPerguntas, countPerguntas } from '../../database/crud_temas';
 import styles from './styles';
 import { criarTabelasPerguntas } from '../../database/crud_perguntas';
 
@@ -47,10 +47,10 @@ export default function ScreenGame({ navigation }) {
     const atualizarTemas = async () => {
         try {
             console.log("Entrando atualiza");
-            const temasList = await listaTemas();
+            const temasList = await listaTemasComPerguntas();
             console.log("temasList", temasList);
             if (!temasList || temasList.length === 0) {
-                console.warn("Nenhum tema encontrado.");
+                console.log("Nenhum tema encontrado.");
                 return;
             }
             setTemas(temasList);

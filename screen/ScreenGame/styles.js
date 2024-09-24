@@ -12,10 +12,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
         color: '#eeeeee',
         marginBottom: 10,
+        marginTop: 30,
     },
     main: {
         justifyContent: 'flex-start',
