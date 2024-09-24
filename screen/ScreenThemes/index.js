@@ -123,10 +123,10 @@ export default function ScreenRegistrationTheme({ navigation }) {
                         </Text>
                         <View style={styles.iconContainer}>
                             <TouchableOpacity onPress={() => editarTema(tema)}>
-                                <Icon name="edit" size={20} color="#000" />
+                                <Icon name="edit" size={20} color="#00adb5" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => apagarTema(tema.id)}>
-                                <Icon style={styles.icon} name="trash" size={20} color="#000" />
+                                <Icon style={styles.icon} name="trash" size={20} color="#00adb5" />
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>

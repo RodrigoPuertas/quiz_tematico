@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center',
         color: '#ffffff', // Cor do texto em branco
+
     },
     numberText: {
         fontSize: 48,
