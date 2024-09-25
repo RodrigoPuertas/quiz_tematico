@@ -52,7 +52,7 @@ export async function listaTemasComPerguntas() {
 
     try {
         dbCx = await getDbConnection();
-        const registros = await dbCx.getAllAsync('SELECT * FROM tbTemas A INNER JOIN tbPerguntas B ON A.idTema = b.idTema ORDER BY idTema DESC');
+        const registros = await dbCx.getAllAsync('SELECT distinct a.* FROM tbTemas A INNER JOIN tbPerguntas B ON A.idTema = b.idTema ORDER BY idTema DESC');
         console.log("registros",registros);
         if (registros) {
             retorno = registros.map(registro => ({
