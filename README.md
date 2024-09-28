@@ -1,64 +1,57 @@
-# Quiz_app
+# 📚 Projeto de Quiz App com React Native e SQLite
 
+Bem-vindo(a) ao repositório do **Quiz App**! 🎉 Este projeto foi desenvolvido utilizando **React Native** e **SQLite** para criar um aplicativo de quiz dinâmico com temas personalizados. Aqui, você pode registrar temas, adicionar perguntas e acompanhar a contagem de perguntas por tema.
 
-Homepage 
-funcionalidades: boas vindas
-                botão para o menu
+## 🛠️ Funcionalidades
 
-Menu
-Funcionalidades:    barra de navegação  -> lista de buttons sobre a categoria 
-                                        -> cadastro de temas 
-                                        -> cadastro de perguntas 
+- Criação e gestão de **temas** personalizados.
+- Adição, atualização e exclusão de **perguntas** relacionadas a temas.
+- Integração com **SQLite** para armazenamento local de dados.
+- Navegação entre telas utilizando **React Navigation**.
+- Atualização automática da contagem de perguntas por tema.
+  
+## 🚀 Começando
 
+Estas instruções vão lhe guiar na configuração do projeto localmente para desenvolvimento e testes.
 
-tela de Jogo
-    selecionar qtd de perguntas e mostra qtd total de perguntas de acordo com o tema (validação de perguntas)
-    formulario 
+### 📋 Pré-requisitos
 
-Tela Resultado
-    acertos e erros em porcent
+Você vai precisar das seguintes ferramentas instaladas em sua máquina para rodar o projeto:
 
-Cruid temas
-lista de tema
-button para add tema
+- [Node.js](https://nodejs.org/) (v14.x ou superior)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/) (para rodar o projeto)
+- Um emulador Android/iOS ou dispositivo físico para rodar o aplicativo
 
-regras: se apagar um tema precisa apagar todas as perguntas.
+### 🧑‍💻 Instalação
 
+Siga os passos abaixo para instalar o projeto em sua máquina:
 
-Cruid perguntas(parte 1)
-lista de temas para selecionar e vincular a pergunta
+1. Clone o repositório:
+    ```bash
+    git clone https://github.com/seu-usuario/seu-repositorio.git
+    ```
 
-cruid perguntas(parte 2)
-lista de perguntas -> button para editar 
-button para add 
+2. Navegue até o diretório do projeto:
+    ```bash
+    cd seu-repositorio
+    ```
 
-cruid perguntas(parte 3)
-formulario 
+3. Instale as dependências:
+    ```bash
+    npm install
+    ```
 
-Organização do projeto: 
-quiz_tematico/
-├─ .expo/
-├─ assets/
-├─ node_modules/
-├─ Screen/
-│  ├─ HomePage/
-│  │  ├─ index.js
-│  │  └─ styles.js
-│  ├─ ScreenForms/
-│  │  ├─ index.js
-│  │  └─ styles.js
-│  ├─ ScreenGame/
-│  │  ├─ index.js
-│  │  └─ styles.js
-│  ├─ ScreenRegistrationQuestions/
-│  │  ├─ index.js
-│  │  └─ styles.js
-│  └─ ScreenRegistrationTheme/
-│     ├─ index.js
-│     └─ styles.js
-├─ App.js
-├─ app.json
-├─ package.json
-├─ package-lock.json
-├─ babel.config.js
-└─ README.md
+4. Inicie o Expo:
+    ```bash
+    npx expo start
+    ```
+
+5. Abra o aplicativo no seu dispositivo físico através do **Expo Go** ou inicie o emulador.
+
+## 🤝 Colaboradores
+
+### Lohan Batista Moreira
+[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Lohan1303)
+
+### Rodrigo Puertas Matioli
+[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RodrigoPuertas)
